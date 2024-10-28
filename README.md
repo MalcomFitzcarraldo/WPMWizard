@@ -19,3 +19,21 @@ By leveraging your clipboard's text, our software simulates typing at a set Word
 2. Customizable settings : Adjust the speed and accuracy to suit your needs.
 3. High-accuracy typing : Our software is designed to ensure accurate typing, even for complex texts.
 
+## Installation:
+
+1. Install Python (with PIP) - https://www.python.org/downloads/
+  - Once installed, confirm that you have installed by typing pip --version in the Command Prompt.
+2. Run the commands below to install all the necessary Python modules:
+
+```
+pip install pyautogui
+pip install colorama
+pip install pyperclip
+```
+
+3. Open typer.py and you're ready to test WMPWizard!
+
+
+
+
+
