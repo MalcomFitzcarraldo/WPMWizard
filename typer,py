@@ -3,30 +3,48 @@ import pyperclip
 import keyboard
 import time
 from colorama import Fore, Back, Style
+
 print(Back.BLUE + "WPMWizard Ready")
 print(Style.RESET_ALL)
-print(Fore.WHITE + "1. Copy the text you to the clipboard (Ctrl+C)")
+print(Fore.WHITE + "1. Copy the text you want to the clipboard (Ctrl+C)")
 print(Fore.WHITE + "2. Click into the text box where you need to simulate typing.")
-print(Fore.WHITE + "3. Ctrl+7 to start typing, close this window with th mouse to stop.")
+print(Fore.WHITE + "3. Ctrl+7 to start typing, close this window with the mouse to stop.")
+
 def type_clipboard_text():
+    global stop_typing
+    stop_typing = False
+    
+    # Register the Alt+Shift+Z keyboard shortcut to stop typing
+    def type_stop():
+        global stop_typing
+        stop_typing = True
+        print("Typing stopped.")
+    
+    # Register the hotkey
+    keyboard.add_hotkey('Alt+Shift+Z', type_stop)
+    
     # Countdown
     for i in range(3, 0, -1):
         print(f"Starting in {i}...")
         time.sleep(1)
+    
     # Get the text from the clipboard
     text = pyperclip.paste()
-
-    # Typing Speed
-    words_per_minute = 70
-
-    words_per_second = words_per_minute / 60
-    delay = 1 / words_per_second
-    # Split the text into words
-    words = text.split()
-    # Type each word with a delay
-    for word in words:
-        pyautogui.typewrite(word)
-        pyautogui.press('space')
+    
+    # Typing speed in characters per minute
+    chars_per_minute = 70 * 5  # Assuming average word length of 5 characters
+    chars_per_second = chars_per_minute / 60
+    delay = 1 / chars_per_second
+    
+    # Type each character with a delay
+    for char in text:
+        if stop_typing:
+            break
+        pyautogui.typewrite(char)
         time.sleep(delay)
+
+# Register the Ctrl+7 keyboard shortcut to start typing
 keyboard.add_hotkey('Ctrl+7', type_clipboard_text)
+
+# Keep the script running
 keyboard.wait()
